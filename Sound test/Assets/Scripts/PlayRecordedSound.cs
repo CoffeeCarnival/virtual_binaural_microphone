@@ -14,7 +14,7 @@ public class PlayRecordedSound : MonoBehaviour, ISetText
 	private AudioSource _audioSource;
 
 	[SerializeField]
-	private AttachMicrophone _microphone;
+	private AttachMicrophone _microphone = null;
 
 	private bool isSetupPlay { get; set; }
 
@@ -37,7 +37,9 @@ public class PlayRecordedSound : MonoBehaviour, ISetText
 			return;
 		}
 		isSetupPlay = false;
-		_microphone.audioSource.mute = true;
+		if (_microphone != null) {
+			_microphone.audioSource.mute = true;
+		}
 		var filePath = recordingSound.outputPath + "\\" + recordingSound.fileName + ".wav";
 		StartCoroutine(StreamPlayAudioFile(filePath));
 	}
@@ -47,7 +49,9 @@ public class PlayRecordedSound : MonoBehaviour, ISetText
 		{
 			audioSource.Stop();
 			audioSource.clip = null;
-			_microphone.audioSource.mute = false;
+			if (_microphone != null) {
+				_microphone.audioSource.mute = false;
+			}
 		}
 	}
 	private IEnumerator StreamPlayAudioFile(string filePath)

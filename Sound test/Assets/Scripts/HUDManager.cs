@@ -7,16 +7,18 @@ using UniRx;
 public class HUDManager : MonoBehaviour {
 
 	[SerializeField]
-	private Image _textPanel;
+	private Image _textPanel = null;
 	[SerializeField]
-	private Text _text;
+	private Text _text = null;
 	
 
 	void Start () {
-		_text
-			.ObserveEveryValueChanged(t => t.text)
-			.Subscribe(t => _textPanel.gameObject.SetActive(!string.IsNullOrEmpty(t)));
-		_text.text = string.Empty;
+		if (_text != null) {
+			_text
+				.ObserveEveryValueChanged(t => t.text)
+				.Subscribe(t => _textPanel.gameObject.SetActive(!string.IsNullOrEmpty(t)));
+			_text.text = string.Empty;
+		}
 	}
 	
 }
